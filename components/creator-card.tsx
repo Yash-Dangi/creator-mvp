@@ -40,7 +40,7 @@ export default function CreatorCard({ creator, isSelected = false, onToggle, sho
           {getPlatformIcon(creator.platform)}
           <span className="text-muted-foreground capitalize">{creator.platform}</span>
           <span className="text-muted-foreground">•</span>
-          <span className="text-muted-foreground">{creator.niche}</span>
+          <span className="text-muted-foreground line-clamp-1">{Array.isArray(creator.niche) ? creator.niche.join(', ') : creator.niche}</span>
         </div>
 
         {/* Stats */}

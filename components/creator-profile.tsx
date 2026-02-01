@@ -48,7 +48,7 @@ export default function CreatorProfile({ creator }: CreatorProfileProps) {
                                     <span className="capitalize">{creator.platform}</span>
                                 </div>
                                 <span>•</span>
-                                <span>{creator.niche}</span>
+                                <span>{Array.isArray(creator.niche) ? creator.niche.join(', ') : creator.niche}</span>
                             </div>
                         </div>
                     </div>
@@ -77,29 +77,66 @@ export default function CreatorProfile({ creator }: CreatorProfileProps) {
                     </div>
                 </div>
 
+                {/* Media Links / Portfolio */}
+                {creator.mediaLinks && creator.mediaLinks.length > 0 && (
+                    <section className="mb-12">
+                        <h2 className="text-2xl font-bold text-foreground mb-6">Portfolio & Media</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {creator.mediaLinks.map((link, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-card border border-border p-4 rounded-lg hover:shadow-md transition flex items-center justify-between group"
+                                >
+                                    <div className="flex items-center gap-3 overflow-hidden">
+                                        <div className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center text-muted-foreground">
+                                            {/* Generic link icon */}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium text-foreground truncate group-hover:text-accent transition">
+                                                Media Link {idx + 1}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground truncate">{link}</p>
+                                        </div>
+                                    </div>
+                                    <div className="opacity-0 group-hover:opacity-100 transition">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
                 {/* Top Posts */}
-                <section className="mb-12">
-                    <h2 className="text-2xl font-bold text-foreground mb-6">Top Performing Posts</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {creator.topPosts.map((post) => (
-                            <div key={post.id} className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-md transition">
-                                <div className="relative w-full h-48 bg-secondary">
-                                    <Image
-                                        src={post.imageUrl || "/placeholder.svg"}
-                                        alt="Post"
-                                        fill
-                                        className="object-cover"
-                                    />
+                {creator.topPosts && creator.topPosts.length > 0 && (
+                    <section className="mb-12">
+
+                        <h2 className="text-2xl font-bold text-foreground mb-6">Top Performing Posts</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {creator.topPosts.map((post) => (
+                                <div key={post.id} className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-md transition">
+                                    <div className="relative w-full h-48 bg-secondary">
+                                        <Image
+                                            src={post.imageUrl || "/placeholder.svg"}
+                                            alt="Post"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <div className="p-4">
+                                        <p className="text-sm text-muted-foreground">
+                                            {post.likes.toLocaleString()} likes • {post.comments} comments
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="p-4">
-                                    <p className="text-sm text-muted-foreground">
-                                        {post.likes.toLocaleString()} likes • {post.comments} comments
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                            ))}
+                        </div>
+                    </section>
+                )}
 
                 {/* Audience Demographics */}
                 <section className="mb-12">

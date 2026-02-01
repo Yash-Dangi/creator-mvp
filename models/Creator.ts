@@ -6,13 +6,14 @@ export interface ICreator extends Document {
     name: string;
     handle: string;
     platform: 'instagram' | 'youtube' | 'tiktok';
-    niche: string;
+    niche: string[]; // Changed to array
     followers: number;
     engagementRate: number;
     rate: number;
 
     // New/Existing Fields requested
     numPosts: number;
+    mediaLinks: string[]; // New field for photos/videos
     recentActivity: string;
     geography: string[];
     experience: string;
@@ -51,12 +52,13 @@ const CreatorSchema = new Schema<ICreator>({
     name: { type: String, required: true },
     handle: { type: String, required: true },
     platform: { type: String, enum: ['instagram', 'youtube', 'tiktok'], required: true },
-    niche: { type: String, required: true },
+    niche: { type: [String], required: true }, // Changed to array
     followers: { type: Number, required: true },
     engagementRate: { type: Number, required: true },
     rate: { type: Number, required: true },
 
     numPosts: { type: Number, default: 0 },
+    mediaLinks: { type: [String], default: [] }, // New field
     recentActivity: { type: String },
     geography: [String],
     experience: { type: String },
